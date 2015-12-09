@@ -52,5 +52,5 @@ for y in range(y_limits["bottom"], y_limits["top"]):
     y_position = (y_limits["top"] - y)
     new_image.paste(im, (0, y_position * reduced_size))
     im.close()
-new_image.save("total_img_" + str(reduced_size) + ".png")
+new_image.save("total_img_" + str(reduced_size) + "_pixel.png")
 new_image.close()
