@@ -1,28 +1,7 @@
 import requests
 import shutil
-import math
 
 img_dir = 'pulled_images/'
-
-# pulled from javascript source
-# https://xkcd.com/1608/tigl.min.js
-leftEdge = 475136
-rightEdge = 567295
-imageSize = 513
-
-x_limits = {
-    "least": math.floor(leftEdge / imageSize),
-    "most": math.ceil(rightEdge / imageSize)
-}
-
-# y doesnt seem to have a limit
-# presumably floor serves as a limit on downwards
-# use y start cord initially
-
-y_limits = {
-    "most": math.ceil(549612 / imageSize),
-    "least": math.floor(549612 / imageSize)
-}
 
 
 def get_tile(x, y):
@@ -32,15 +11,12 @@ def get_tile(x, y):
     response = requests.get(url, stream=True)
     file_name = str(y) + "_" + str(x)
     print("x: " + str(x) + " y: " + str(y))
+    # empty tiles (i.e. all white) get 404's
     if response.status_code == 200:
         print("got 200")
         file_path = img_dir + file_name + ".png"
         with open(file_path, 'wb') as out_file:
             shutil.copyfileobj(response.raw, out_file)
-    else:
-        # empty tiles (i.e. all white) get 404's
-        file_path = img_dir + file_name + ".default"
-        open(file_path, "w+").close()
     return response.status_code
 
 
@@ -60,7 +36,7 @@ def expand_limit(position, change, perpendicular_limits, explore_axis):
             position += change
 
 
-def explore(expanding_limits, hard_limits, expanding_axis):
+def explore_axis(expanding_limits, hard_limits, expanding_axis):
     print("exploring most")
     new_most = expand_limit(expanding_limits["most"], 1, hard_limits, expanding_axis)
     print("exploring least")
@@ -73,20 +49,20 @@ def explore(expanding_limits, hard_limits, expanding_axis):
         return True
 
 
-# Initial strategy was to expand along alternating axis
-# Changing as each axis got only 404s for a row/column
-# This is likely unnecessary, as limits for the x where pulled from the source
-# sInstead, we could of just expanded along the y until all 404ss
-
-print("y explore")
-explore(y_limits, x_limits, "y")
-while True:
-    print("x explore")
-    if not explore(x_limits, y_limits, "x"):
-        break
+def pull_all_images(x_limits, y_limits):
+    """Initial strategy was to expand along alternating axis
+    Changing as each axis got only 404s for a row/column
+    This is likely unnecessary, as limits for the x where pulled from the source
+    Instead, we could of just expanded along the y until all 404s"""
     print("y explore")
-    if not explore(y_limits, x_limits, "y"):
-        break
-
-print("explored from x: " + str(x_limits["least"]) + " y: " + str(y_limits["least"]) +
-      "to x: " + str(x_limits["most"]) + " y: " + str(y_limits["least"]))
+    explore_axis(y_limits, x_limits, "y")
+    while True:
+        print("x explore")
+        if not explore_axis(x_limits, y_limits, "x"):
+            break
+        print("y explore")
+        if not explore_axis(y_limits, x_limits, "y"):
+            break
+    print("explored from x: " + str(x_limits["least"]) + " y: " + str(y_limits["least"]) +
+          "to x: " + str(x_limits["most"]) + " y: " + str(y_limits["least"]))
+    return x_limits, y_limits
