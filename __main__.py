@@ -8,8 +8,8 @@ rightEdge = 567295
 imageSize = 513
 
 x_limits = {
-    "least": math.floor(leftEdge / imageSize),
-    "most": math.ceil(rightEdge / imageSize)
+    "left": math.floor(leftEdge / imageSize),
+    "right": math.ceil(rightEdge / imageSize)
 }
 
 # y doesnt seem to have a limit
@@ -17,22 +17,22 @@ x_limits = {
 # use y start cord initially
 
 y_limits = {
-    "most": math.ceil(549612 / imageSize),
-    "least": math.floor(549612 / imageSize)
+    "top": math.ceil(549612 / imageSize),
+    "bottom": math.floor(549612 / imageSize)
 }
 
-x_limits, y_limits = pull_images.pull_all_images(x_limits, y_limits)
+#x_limits, y_limits = pull_images.pull_all_images(x_limits, y_limits)
 
 # these were taken from xkcd_map's output
-#x_limits = {
-#    "left": 928,
-#    "right": 1074
-#}
+x_limits = {
+    "left": 928,
+    "right": 1074
+}
 
-#y_limits = {
-#    "top": 1112,
-#    "bottom": 1068
-#}
+y_limits = {
+    "top": 1112,
+    "bottom": 1068
+}
 
-stitch_images.stitch_tiles_to_rows(x_limits, y_limits)
+stitch_images.stitch_tiles_to_rows(y_limits, x_limits)
 stitch_images.stitch_rows_to_image(x_limits, y_limits)
