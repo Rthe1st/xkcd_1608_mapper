@@ -1,5 +1,6 @@
-import requests
+from concurrent import futures
 import shutil
+import requests
 
 img_dir = 'pulled_images/'
 
@@ -19,8 +20,12 @@ def get_tile(x, y):
 
 def row_is_all_404(x_min, x_max, y):
     all_404 = True
-    for x in range(x_min, x_max + 1):
-        if get_tile(x, y) != 404:
+    request_results = []
+    with futures.ThreadPoolExecutor(max_workers=10) as executor:
+        for x in range(x_min, x_max + 1):
+            request_results.append(executor.submit(get_tile, x, y))
+    for future in futures.as_completed(request_results):
+        if future.result() != 404:
             all_404 = False
     return all_404
 

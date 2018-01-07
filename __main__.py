@@ -1,11 +1,14 @@
-import pull_images, stitch_images
 import math
+import pull_images, stitch_images
+import time
 
 # pulled from javascript source
 # https://xkcd.com/1608/tigl.min.js
 leftEdge = 475136
 rightEdge = 567295
 imageSize = 513
+
+start = time.time()
 
 x_min = int(math.floor(leftEdge / imageSize))
 x_max = int(math.ceil(rightEdge / imageSize))
@@ -32,3 +35,6 @@ y_limits = {
 
 stitch_images.stitch_tiles_to_rows(y_limits, x_limits)
 stitch_images.stitch_rows_to_image(x_limits, y_limits)
+
+end = time.time()
+print("time taken: " + str((end - start)/60))
