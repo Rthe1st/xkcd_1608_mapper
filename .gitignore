@@ -1,0 +1,11 @@
+# python
+__pycache__
+*.pyc
+
+# xkcd tile images
+pulled_images
+stitched_rows
+total_img_*
+
+# pycharm
+.idea
