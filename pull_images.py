@@ -2,7 +2,7 @@ from concurrent import futures
 import shutil
 import requests
 
-img_dir = 'pulled_images/'
+IMAGE_DIR = 'pulled_images/'
 
 
 def get_tile(x, y):
@@ -12,7 +12,7 @@ def get_tile(x, y):
     file_name = str(y) + "_" + str(x)
     # empty tiles (i.e. all white) get 404's
     if response.status_code == 200:
-        file_path = img_dir + file_name + ".png"
+        file_path = IMAGE_DIR + file_name + ".png"
         with open(file_path, 'wb+') as out_file:
             shutil.copyfileobj(response.raw, out_file)
     return response.status_code
