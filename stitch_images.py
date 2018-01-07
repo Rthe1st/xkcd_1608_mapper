@@ -18,29 +18,29 @@ def file_name(x, y):
         return default_file_name
 
 
-def stitch_tiles_to_rows(y_limits, x_limits):
+def stitch_tiles_to_rows(x_min, x_max, y_min, y_max):
     print("Stitching tiles into rows")
-    for y in range(y_limits["bottom"], y_limits["top"] + 1):
-        row_width = x_limits["right"] - x_limits["left"]
+    for y in range(y_min, y_max + 1):
+        row_width = x_max - x_min
         image_row = Image.new("L", (reduced_size * row_width, reduced_size))
-        for x in range(x_limits["left"], x_limits["right"]):
+        for x in range(x_min, x_max):
             image_tile = Image.open(file_name(x, y))
             image_tile = image_tile.resize((reduced_size, reduced_size))
-            x_position = (x - x_limits["left"])
+            x_position = (x - x_min)
             image_row.paste(image_tile, (x_position * reduced_size, 0))
             image_tile.close()
         image_row.save(image_row_dir + str(y) + "_row.png")
         image_row.close()
 
 
-def stitch_rows_to_image(x_limits, y_limits):
+def stitch_rows_to_image(x_min, x_max, y_min, y_max):
     print("Stitching rows into image")
-    row_width = x_limits["right"] - x_limits["left"]
-    column_height = y_limits["top"] - y_limits["bottom"]
+    row_width = x_max - x_min
+    column_height = y_max - y_min
     new_image = Image.new("L", (reduced_size * row_width, reduced_size * column_height))
-    for y in range(y_limits["bottom"], y_limits["top"]):
+    for y in range(y_min, y_max):
         im = Image.open(image_row_dir + str(y) + "_row.png")
-        y_position = (y_limits["top"] - y)
+        y_position = (y_max - y)
         new_image.paste(im, (0, y_position * reduced_size))
         im.close()
     new_image.save("total_img_" + str(reduced_size) + "_pixel.png")

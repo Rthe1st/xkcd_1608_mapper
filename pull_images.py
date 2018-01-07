@@ -41,17 +41,13 @@ def pull_all_images(x_min, x_max, y_start):
         y += 1
         if y%10 == 0:
             print("Row " + str(y) + " done")
-    top = y
+    y_max = y
     print("Exploring down")
     y = y_start
     while not row_is_all_404(x_min, x_max, y):
         y -= 1
         if y%10 == 0:
             print("Row " + str(y) + " done")
-    bottom = y
+    y_min = y
 
-    y_limits = {
-        "bottom": bottom,
-        "top": top
-    }
-    return {"left": x_min, "right": x_max}, y_limits
+    return y_min, y_max
