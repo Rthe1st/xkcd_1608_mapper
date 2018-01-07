@@ -2,17 +2,17 @@ from concurrent import futures
 import shutil
 import requests
 
-IMAGE_DIR = 'pulled_images/'
+PULLED_IMAGES_DIR = 'pulled_images'
 
 
 def get_tile(x, y):
     # save as y_x so it looks right sorted alphabetically in directories
-    url = "http://xkcd.com/1608/" + str(x) + ":-" + str(y) + "+s.png"
+    url = "http://xkcd.com/1608/%i:-%i+s.png" % x, y
     response = requests.get(url, stream=True)
-    file_name = str(y) + "_" + str(x)
+    file_name = "%i_%i" % y, x
     # empty tiles (i.e. all white) get 404's
     if response.status_code == 200:
-        file_path = IMAGE_DIR + file_name + ".png"
+        file_path = "%s/%s.png" % PULLED_IMAGES_DIR, file_name
         with open(file_path, 'wb+') as out_file:
             shutil.copyfileobj(response.raw, out_file)
     return response.status_code
@@ -40,14 +40,14 @@ def pull_all_images(x_min, x_max, y_start):
     while not row_is_all_404(x_min, x_max, y):
         y += 1
         if y%10 == 0:
-            print("Row " + str(y) + " done")
+            print("Row %i done" % y)
     y_max = y
     print("Exploring down")
     y = y_start
     while not row_is_all_404(x_min, x_max, y):
         y -= 1
         if y%10 == 0:
-            print("Row " + str(y) + " done")
+            print("Row %i done" % y)
     y_min = y
 
     return y_min, y_max
