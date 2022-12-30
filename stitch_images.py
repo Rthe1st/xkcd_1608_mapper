@@ -24,7 +24,7 @@ def stitch_tiles_to_rows(x_min, x_max, y_min, y_max, reduced_image_size):
             x_position = (x - x_min)
             row_image.paste(image_tile, (x_position * reduced_image_size, 0))
             image_tile.close()
-        row_image.save("%s/%i_%i_row.png" % ROW_IMAGE_DIR, y, x)
+        row_image.save("%s/%i_%i_row.png" % (ROW_IMAGE_DIR, y, x))
         row_image.close()
 
 
@@ -34,7 +34,7 @@ def stitch_rows_to_image(x_min, x_max, y_min, y_max, reduced_image_size):
     column_height = y_max - y_min
     new_image = Image.new("L", (reduced_image_size * row_width, reduced_image_size * column_height))
     for y in range(y_min, y_max):
-        row_image = Image.open("%s/%i_row.png" % (ROW_IMAGE_DIR, y))
+        row_image = Image.open("%s/%i_%i_row.png" % (ROW_IMAGE_DIR, y, x_max - 1))
         y_position = (y_max - y)
         new_image.paste(row_image, (0, y_position * reduced_image_size))
         row_image.close()
