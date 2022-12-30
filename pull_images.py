@@ -7,12 +7,12 @@ PULLED_IMAGES_DIR = 'pulled_images'
 
 def get_tile(x, y):
     # save as y_x so it looks right sorted alphabetically in directories
-    url = "http://xkcd.com/1608/%i:-%i+s.png" % x, y
+    url = "http://xkcd.com/1608/%i:-%i+s.png" % (x, y)
     response = requests.get(url, stream=True)
-    file_name = "%i_%i" % y, x
+    file_name = "%i_%i" % (y, x)
     # empty tiles (i.e. all white) get 404's
     if response.status_code == 200:
-        file_path = "%s/%s.png" % PULLED_IMAGES_DIR, file_name
+        file_path = "%s/%s.png" % (PULLED_IMAGES_DIR, file_name)
         with open(file_path, 'wb+') as out_file:
             shutil.copyfileobj(response.raw, out_file)
     return response.status_code

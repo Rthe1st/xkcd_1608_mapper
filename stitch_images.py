@@ -5,7 +5,7 @@ from pull_images import PULLED_IMAGES_DIR
 ROW_IMAGE_DIR = "stitched_rows"
 
 def file_name(x, y):
-    successful_file_name = "%s/%i_%i.png" % PULLED_IMAGES_DIR, y, x
+    successful_file_name = "%s/%i_%i.png" % (PULLED_IMAGES_DIR, y, x)
     default_file_name = "default_img.jpg"
     if os.path.isfile(successful_file_name):
         return successful_file_name
@@ -34,7 +34,7 @@ def stitch_rows_to_image(x_min, x_max, y_min, y_max, reduced_image_size):
     column_height = y_max - y_min
     new_image = Image.new("L", (reduced_image_size * row_width, reduced_image_size * column_height))
     for y in range(y_min, y_max):
-        row_image = Image.open("%s/%i_row.png" % ROW_IMAGE_DIR, y)
+        row_image = Image.open("%s/%i_row.png" % (ROW_IMAGE_DIR, y))
         y_position = (y_max - y)
         new_image.paste(row_image, (0, y_position * reduced_image_size))
         row_image.close()

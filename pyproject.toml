@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "xkcd-1608-mapper"
+version = "0.1.0"
+description = "Creates a giant PNG of the map from https://xkcd.com/1608/"
+authors = ["Mehow <kaiser.mehow@gmail.com>"]
+readme = "README.md"
+packages = [{include = "xkcd_1608_mapper"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+requests = "2.28.1"
+Pillow = "3.0.0"
+urllib3 = "^1.26.13"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
