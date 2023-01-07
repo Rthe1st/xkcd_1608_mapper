@@ -4,7 +4,6 @@ from pathlib import Path
 from math import ceil
 
 def stitch_planet(max_cord: int, directory: Path, out_directory: Path, planet: str):
-    # todo: preserve transpancy - see PIL warning
     reduced_image_size = 512
     print(f"Stitching {directory}")
     planet_image = Image.new("RGBA", (reduced_image_size * max_cord, reduced_image_size * max_cord))
@@ -23,7 +22,7 @@ def stitch_planet_into_space(directory: Path, out_directory: Path, planet_locati
     # + 4 is a hack in case we go voer the edige = fix proper
     width_in_tiles = int(ceil((max_x - min_x) / 1024))
     height_in_tiles = int(ceil((max_y - min_y) / 1024))
-    reduced_image_size = 256
+    reduced_image_size = 64
     print(f"Stitching full image")
     space_image = Image.new("RGBA", (reduced_image_size * width_in_tiles, reduced_image_size * height_in_tiles))
     file_name = Path(f"gravity_2x.png")
@@ -45,6 +44,7 @@ def stitch_planet_into_space(directory: Path, out_directory: Path, planet_locati
             reduced_image_size * int(planet["width"]/1024))
         )
         if name == "greatattractor":
+            # todo: move to bottom left
             # special case, because this is so far away from the other planets
             x = +min_x# + planet["width"]/2
             y = +min_y# + planet["height"]/2
@@ -59,6 +59,8 @@ def stitch_planet_into_space(directory: Path, out_directory: Path, planet_locati
             y = planet["loc"][1] - planet["height"]/2
         print("x", x, "x offset", (x + -min_x), "scaled", int((x + -min_x) * (reduced_image_size/1024)))
         # need to offset of center of planet is at x,y
+        # planet cords are twice as bias in config for some reason
+        # and y axis inverted
         space_image.paste(planet_tile, (int((x + -min_x) * (reduced_image_size/1024)), int((y + -min_y)* (reduced_image_size/1024))), planet_tile)
 
     space_image.save(out_directory / f"universe.png")

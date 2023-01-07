@@ -16,6 +16,7 @@ if __name__ == "__main__":
     planet_configs = config["Kl"]
     for name, planet_config in config["Kl"].items():
         planet_config["name"] = name
+        planet_config["loc"] = [planet_config["loc"][0]*2, -planet_config["loc"][1]*2]
         print(name)
         print(planet_config)
         # pull_images.pull_all_images(name, planet_config["width"])
