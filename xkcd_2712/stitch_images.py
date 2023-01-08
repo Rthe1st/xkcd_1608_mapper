@@ -18,6 +18,9 @@ def stitch_planet(max_cord: int, directory: Path, out_directory: Path, planet: s
 
 def create_background_image(width_in_tiles: int, height_in_tiles: int, reduced_image_size: int, out_directory: Path):
     space_image = Image.new("RGBA", (reduced_image_size * width_in_tiles, reduced_image_size * height_in_tiles))
+    # if you replace this with a black square it reduces the file size a lot
+    # but I like the stars :'(
+    # exporting a JPEG result, the stars might compress better
     file_name = Path(f"./xkcd_2712/gravity_2x.png")
     image_tile = Image.open(file_name).convert("RGBA")
     image_tile = image_tile.resize((reduced_image_size, reduced_image_size))
