@@ -3,6 +3,8 @@ from pathlib import Path
 
 from . import pull_images, stitch_images
 
+IMAGE_SIZE = 1024
+
 def check_reduced_image_size(value):
     ivalue = int(value)
     if IMAGE_SIZE < ivalue < 0:
@@ -14,7 +16,7 @@ def add_arguments(parser):
     # the stitched file (presumably due to size) struggles to be displayed in images viewers/editors
     # scale each image to this size instead
     parser.add_argument('-r', '--reduced_image_size', type=check_reduced_image_size,
-                        default=20, help="Default is 20, ~200 needed to read speech bubbles")
+                        default=32, help="Default is 32, ~128 needed to read speech bubbles")
 
     parser.set_defaults(func=run)
 
@@ -39,9 +41,10 @@ def run(args):
             width_in_images,
             planet_tile_directory,
             planet_path,
-            name
+            name,
+            args.reduced_image_size
         )
-        # there is a function Jn in the source that scales all cords by 2, and flips the y axis
+       # there is a function Jn in the source that scales all cords by 2, and flips the y axis
         planet_config["loc"] = [planet_config["loc"][0]*2, -planet_config["loc"][1]*2]
         planet_config["width_in_tiles"] = width_in_images
         # the greatattractor is so far away from other objects
@@ -62,5 +65,6 @@ def run(args):
         min_x_location,
         min_y_location,
         max_x_location,
-        max_y_location
+        max_y_location,
+        args.reduced_image_size
     )
