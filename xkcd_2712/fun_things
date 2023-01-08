@@ -1,0 +1,67 @@
+import antigrav function switches the screen upsidedown
+window.python("import antigravity")
+
+there's coins, if you get the, ship transforms
+
+earth has some werid random function going on
+
+```js
+("earth" === n.opts.name &&
+  Math.abs(t - 31523) < 400 &&
+  Math.abs(e + 34629) < 400 &&
+  Math.random() > 0.5) ||
+  (r ? n.update(i) : n.remove());
+```
+
+ships can have sheidls, and pssibly different engines?
+and there's an inf probabiltiy drive
+
+setting
+
+```
+window.ship.engines = "infinite improbability drive"
+window.ship.engines = "warp"
+```
+
+how do you get these legit?
+
+mean you just teleport between planets
+
+window.ship.sheilds controls sheilds, but i tink its jsut graphical?
+
+Loc notes
+
+from window.Comic.voyager.pos
+you start at x: 0, y: -1459
+
+other side of the planet is x: 0 y: 1815
+origin is loc 0,0 - this is the middle of the planet
+radius 630
+width/height 4096
+
+the radius is well inside the painted boundary of the planet
+
+THis is the code that makes everything twice and big and y negtaive
+function Jn(t) {
+const [e, n] = t;
+return [2 * e, 2 * -n];
+}
+const Qn = Nn(
+Vn.Kl,
+({ loc: t }) =>
+() =>
+Jn(t)
+),
+
+Setting Comic.cameraRotation = false really helps prove the picture matches watches expected
+
+stragtigies for drawing gravity wells
+
+abs vel:
+calculate abs vel for each pixel (or larger space)
+and grey-scale colour space, 0 for no graivty, 255 for lots
+
+To get per planet wells
+
+- give each planet a color, calcualte net direction of pull, colour with that planet it's pointing to?
+  Or use 0 vel areas as borders, and then use grey scale gradient within each border for intensity

@@ -2,7 +2,7 @@ from concurrent import futures
 import shutil
 import requests
 
-PULLED_IMAGES_DIR = 'pulled_images'
+PULLED_IMAGES_DIR = './results/xkcd_1608/pulled_images'
 
 
 def get_tile(x, y):

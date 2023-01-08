@@ -18,14 +18,13 @@ def stitch_planet(max_cord: int, directory: Path, out_directory: Path, planet: s
 
 def create_background_image(width_in_tiles: int, height_in_tiles: int, reduced_image_size: int, out_directory: Path):
     space_image = Image.new("RGBA", (reduced_image_size * width_in_tiles, reduced_image_size * height_in_tiles))
-    file_name = Path(f"gravity_2x.png")
+    file_name = Path(f"./xkcd_2712/gravity_2x.png")
     image_tile = Image.open(file_name).convert("RGBA")
     image_tile = image_tile.resize((reduced_image_size, reduced_image_size))
     for y in range(0, height_in_tiles):
         for x in range(0, width_in_tiles):
             space_image.paste(image_tile, (x * reduced_image_size, y * reduced_image_size))
     image_tile.close()
-    space_image.save(out_directory / f"empty_universe.png")
     return space_image
 
 def add_great_attractor_annotation(attractor_width, attractor_height, space_image):

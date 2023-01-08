@@ -1,12 +1,12 @@
 import os
 from PIL import Image
-from pull_images import PULLED_IMAGES_DIR
+from .pull_images import PULLED_IMAGES_DIR
 
-ROW_IMAGE_DIR = "stitched_rows"
+ROW_IMAGE_DIR = "./results/xkcd_1608/stitched_rows"
 
 def file_name(x, y):
     successful_file_name = "%s/%i_%i.png" % (PULLED_IMAGES_DIR, y, x)
-    default_file_name = "default_img.jpg"
+    default_file_name = "./xkcd_1608/default_img.jpg"
     if os.path.isfile(successful_file_name):
         return successful_file_name
     else:
@@ -38,5 +38,5 @@ def stitch_rows_to_image(x_min, x_max, y_min, y_max, reduced_image_size):
         y_position = (y_max - y)
         new_image.paste(row_image, (0, y_position * reduced_image_size))
         row_image.close()
-    new_image.save("total_img_%s_pixel.png" % reduced_image_size)
+    new_image.save("./results/xkcd_1608/whole_picture/total_img_%s_pixel.png" % reduced_image_size)
     new_image.close()

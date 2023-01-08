@@ -13,11 +13,12 @@ def get_tile(x: int, y: int, planet: str, directory: Path) -> None:
         shutil.copyfileobj(response.raw, out_file)
 
 
-def pull_all_images(planet: str, planet_path: Path, width: int) -> Path:
-    print(f"downloading {width * width} images for {planet}")
+def pull_all_images(planet: str, planet_path: Path, width: int, offline = False) -> Path:
     planet_tile_path = planet_path / planet
     planet_tile_path.mkdir(exist_ok=True)
-    # for x in range(0, width):
-    #     for y in range(0, width):
-    #         get_tile(x, y, planet, planet_tile_path)
+    if not offline:
+        print(f"downloading {width * width} images for {planet}")
+        for x in range(0, width):
+            for y in range(0, width):
+                get_tile(x, y, planet, planet_tile_path)
     return planet_tile_path
