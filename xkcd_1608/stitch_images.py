@@ -6,7 +6,7 @@ ROW_IMAGE_DIR = "./results/xkcd_1608/stitched_rows"
 
 def file_name(x, y):
     successful_file_name = "%s/%i_%i.png" % (PULLED_IMAGES_DIR, y, x)
-    default_file_name = "./xkcd_1608/default_img.jpg"
+    default_file_name = "./xkcd_1608/default_img.png"
     if os.path.isfile(successful_file_name):
         return successful_file_name
     else:
