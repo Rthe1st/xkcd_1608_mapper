@@ -1,7 +1,8 @@
 import json
 from pathlib import Path
+import os
 
-from . import pull_images, stitch_images
+from . import pull_images, stitch_images, background
 
 IMAGE_SIZE = 1024
 
@@ -21,7 +22,7 @@ def add_arguments(parser):
     parser.set_defaults(func=run)
 
 def run(args):
-    with open('./xkcd_2712/config.json') as json_data:
+    with open(f'{os.path.dirname(__file__)}/config.json') as json_data:
         config = json.load(json_data)
     planet_path = Path(f"./results/xkcd_2712/planets")
     planet_path.mkdir(parents=True, exist_ok=True)

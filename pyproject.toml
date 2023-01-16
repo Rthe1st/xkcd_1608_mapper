@@ -1,10 +1,10 @@
 [tool.poetry]
-name = "xkcd-1608-mapper"
+name = "xkcd-mapper"
 version = "0.1.0"
 description = "Creates a giant PNG of the map from https://xkcd.com/1608/"
 authors = ["Mehow <kaiser.mehow@gmail.com>"]
 readme = "README.md"
-packages = [{include = "xkcd_1608_mapper"}]
+packages = [{include = "xkcd_mapper"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"

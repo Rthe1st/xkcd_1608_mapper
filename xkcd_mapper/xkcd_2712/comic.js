@@ -2151,6 +2151,7 @@
               (O = Math.cos(_) * t), (S = Math.sin(_) * t);
             } else {
               // guess gravity is different if your inside the planet
+              // its a % of whatever it would be if you were radius distance away
               const t = m / l,
                 e = t * k(l);
               (O = t * Math.cos(_) * e), (S = t * Math.sin(_) * e);
