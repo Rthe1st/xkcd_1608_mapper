@@ -69,28 +69,36 @@ def create_gravity_background_image(
     global_min = 10000
     unscale_x = 1024/reduced_image_size
     unscale_y = 1024/reduced_image_size
-    strength_cache = {}
-    for x in range(space_image.size[0]):
-        for y in range(space_image.size[1]):
-            if calculate_with_x_y_components:
-                strength = gravity_strength(planet_conf, min_x + x * unscale_x, min_y + y * unscale_y)
-            else:
-                strength = gravity_strength_no_direction(planet_conf, min_x + x * unscale_x, min_y + y * unscale_y)
-            # 4 is arbitrary, matches what was used to calculate cached values
-            if not use_precomputed_max_min and x % 4 == 0 and y % 4 == 0:
+
+    if not use_precomputed_max_min:
+        print("computing fresh max/min gravity bounds")
+        # 4 is arbitrary, matches what was used to calculate cached values
+        for x in range(space_image.size[0], 4):
+            for y in range(space_image.size[1], 4):
+                if calculate_with_x_y_components:
+                    strength = gravity_strength(planet_conf, min_x + x * unscale_x, min_y + y * unscale_y)
+                else:
+                    strength = gravity_strength_no_direction(planet_conf, min_x + x * unscale_x, min_y + y * unscale_y)
                 global_max = max(global_max, strength)
                 global_min = min(global_min, strength)
-            strength_cache[(x, y)] = strength
-    if use_precomputed_max_min:
+    else:
         # these were computed for with reduced_image_size=16, and only checking everyone in 4 pixels
         # chosen because they looked nice
+        print("using pre-computed max/min gravity bounds")
         global_max = 162.83561547751356
         global_min = 5.4384142659479e-05
     print("strongest gravity: ", global_max)
     print("weakest gravity: ", global_min)
+    pixels_so_far = 0
+    total_amount_pixels = space_image.size[0] * space_image.size[1]
     for x in range(space_image.size[0]):
         for y in range(space_image.size[1]):
-            strength = strength_cache[(x, y)]
+            pixels_so_far += 1
+            if pixels_so_far % 100000 == 0:
+                percent_complete = int((pixels_so_far / total_amount_pixels) * 100)
+                print(f"{pixels_so_far} out of {total_amount_pixels}, {percent_complete}% gravity pixels complete")
+            strength = gravity_strength(planet_conf, min_x + x * unscale_x, min_y + y * unscale_y)
+            # strength = strength_cache[(x, y)]
             r = g = b = a = black_and_white(strength, global_max, global_min)
             pixels[x,y] = (r, g, b, a)
 

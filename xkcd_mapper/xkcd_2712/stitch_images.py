@@ -40,11 +40,13 @@ def stitch_planet_into_space(directory: Path, out_directory: Path, planet_locati
 
     width_in_tiles = int(ceil((max_x - min_x) / 1024))
     height_in_tiles = int(ceil((max_y - min_y) / 1024))
+    print("Creating background stars")
     space_image = create_star_background_image(width_in_tiles, height_in_tiles, reduced_image_size, out_directory)
+    print("Creating gravity representation")
     space_image2 = create_gravity_background_image(width_in_tiles, height_in_tiles, reduced_image_size, out_directory, planet_locations.values(), min_x, min_y)
     space_image.paste(space_image2, (0,0), space_image2)
-
     for name, planet in planet_locations.items():
+        print(f"Pasting {name} onto image")
         p_file = directory / f"{name}.png"
         planet_tile = Image.open(p_file).convert("RGBA")
         if name == "greatattractor":
@@ -59,6 +61,6 @@ def stitch_planet_into_space(directory: Path, out_directory: Path, planet_locati
             x = (planet["loc"][0] - planet["width"]/2 - min_x) * (reduced_image_size/1024)
             y = (planet["loc"][1] - planet["height"]/2 - min_y) * (reduced_image_size/1024)
         space_image.paste(planet_tile, (int(x), int(y)), planet_tile)
-
+    print("Saving")
     space_image.save(out_directory / f"universe_{reduced_image_size}_pixel.png")
     space_image.close()
