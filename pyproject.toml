@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "xkcd-mapper"
 version = "0.1.0"
-description = "Creates a giant PNG of the map from https://xkcd.com/1608/"
+description = "Creates a giant PNG of the map from https://xkcd.com/1608/ or https://xkcd.com/2712/"
 authors = ["Mehow <kaiser.mehow@gmail.com>"]
 readme = "README.md"
 packages = [{include = "xkcd_mapper"}]
