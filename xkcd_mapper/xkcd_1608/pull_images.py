@@ -2,7 +2,7 @@ from concurrent import futures
 import shutil
 import requests
 
-PULLED_IMAGES_DIR = './results/xkcd_1608/pulled_images'
+PULLED_IMAGES_DIR = "./results/xkcd_1608/pulled_images"
 
 
 def get_tile(x, y):
@@ -13,7 +13,7 @@ def get_tile(x, y):
     # empty tiles (i.e. all white) get 404's
     if response.status_code == 200:
         file_path = "%s/%s.png" % (PULLED_IMAGES_DIR, file_name)
-        with open(file_path, 'wb+') as out_file:
+        with open(file_path, "wb+") as out_file:
             shutil.copyfileobj(response.raw, out_file)
     return response.status_code
 
@@ -39,14 +39,14 @@ def pull_all_images(x_min, x_max, y_start):
     print("Exploring up")
     while not row_is_all_404(x_min, x_max, y):
         y += 1
-        if y%10 == 0:
+        if y % 10 == 0:
             print("Row %i done" % y)
     y_max = y
     print("Exploring down")
     y = y_start
     while not row_is_all_404(x_min, x_max, y):
         y -= 1
-        if y%10 == 0:
+        if y % 10 == 0:
             print("Row %i done" % y)
     y_min = y
 
