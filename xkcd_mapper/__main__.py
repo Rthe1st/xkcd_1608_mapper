@@ -1,6 +1,6 @@
 import argparse
-from .xkcd_1608 import coordinator as xkcd_1608_coordinator
-from .xkcd_2712 import coordinator as xkcd_2712_coordinator
+from xkcd_1608 import coordinator as xkcd_1608_coordinator
+from xkcd_2712 import coordinator as xkcd_2712_coordinator
 
 
 if __name__ == "__main__":

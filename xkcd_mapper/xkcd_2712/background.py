@@ -63,7 +63,7 @@ def create_gravity_background_image(
         use_precomputed_max_min=True,
         calculate_with_x_y_components=True
     ):
-    space_image = Image.new("RGBA", (reduced_image_size * width_in_tiles, reduced_image_size * height_in_tiles))
+    space_image = Image.new("LA", (reduced_image_size * width_in_tiles, reduced_image_size * height_in_tiles))
     pixels = space_image.load()
     global_max = 0
     global_min = 10000
@@ -99,16 +99,16 @@ def create_gravity_background_image(
                 print(f"{pixels_so_far} out of {total_amount_pixels}, {percent_complete}% gravity pixels complete")
             strength = gravity_strength(planet_conf, min_x + x * unscale_x, min_y + y * unscale_y)
             # strength = strength_cache[(x, y)]
-            r = g = b = a = black_and_white(strength, global_max, global_min)
-            pixels[x,y] = (r, g, b, a)
+            g = a = black_and_white(strength, global_max, global_min)
+            pixels[x,y] = (g, a)
 
     return space_image
 
 def create_star_background_image(width_in_tiles: int, height_in_tiles: int, reduced_image_size: int, out_directory: Path):
-    space_image = Image.new("RGBA", (reduced_image_size * width_in_tiles, reduced_image_size * height_in_tiles))
+    space_image = Image.new("LA", (reduced_image_size * width_in_tiles, reduced_image_size * height_in_tiles))
     file_name = Path(f"{os.path.dirname(__file__)}/gravity_2x.png")
     background_tile_size = 256
-    image_tile = Image.open(file_name).convert("RGBA")
+    image_tile = Image.open(file_name).convert("LA")
     image_tile = image_tile.resize((background_tile_size, background_tile_size))
     for y in range(height_in_tiles):
         for x in range(width_in_tiles):
